@@ -1,0 +1,45 @@
+{% extends "blog/base.html" %}
+{% load blog_tags %}
+{% load crispy_forms_tags %}
+{% block title %}Add Post{% endblock %}
+{% block content %}
+<h1>Add Post</h1>
+<form method="post">
+    {% csrf_token %}
+
+    <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+            {{form.title|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-6 mb-0">
+            {{form.slug|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-6 mb-0">
+            {{form.author|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-6 mb-0">
+            {{form.body|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-6 mb-0">
+            {{form.publish|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-6 mb-0">
+            {{form.status|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-6 mb-0">
+            {{form.tags|as_crispy_field}}
+        </div>
+    </div>
+    <br>
+    <!-- <table>{{ form.as_table }}</table> -->
+    <input type="submit" value="Save Post">
+
+
+</form>
+<br>
+<br>
+<a href="{% url 'blog:post_list' %}">
+    Go back to the Post
+</a>
+
+{% endblock %}

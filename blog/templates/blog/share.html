@@ -1,4 +1,5 @@
 {% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
 {% block title %}Share a post{% endblock %}
 {% block content %}
 {% if sent %}
@@ -9,8 +10,21 @@
 {% else %}
 <h1>Share "{{ post.title }}" by e-mail</h1>
 <form method="post">
-    {{ form.as_p }}
     {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+            {{form.name|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-6 mb-0">
+            {{form.email|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-6 mb-0">
+            {{form.to|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-6 mb-0">
+            {{form.comments|as_crispy_field}}
+        </div>
+    </div>
     <input type="submit" value="Send e-mail">
 </form>
 {% endif %}

@@ -3,7 +3,7 @@ from django.http import Http404
 from .models import Post, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
-from .forms import EmailPostForm, CommentForm, SearchForm
+from .forms import EmailPostForm, CommentForm, SearchForm, AddPostForm
 from django.core.mail import send_mail
 from django.views.decorators.http import require_POST
 from taggit.models import Tag
@@ -95,4 +95,17 @@ def post_search(request):
             results = Post.published.annotate(search=search_vector,rank=SearchRank(search_vector, search_query)).filter(search=search_query).order_by('-rank')
 
     return render(request, 'blog/search.html', {'form':form, 'query':query, 'results':results})
+
+
+def add_post(request):
+    form = AddPostForm()
+    if request.method == 'POST':
+        form = AddPostForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('blog:post_list')
+        
+    return render(request, 'blog/addpost.html', {'form':form})
+
+    
 
