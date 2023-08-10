@@ -1,4 +1,4 @@
-**Blog Application: Create a complete blog application**
+Blog Application: Create a complete blog application
 
 1. Build data models, views, and URLs
 2. Implement an administration site for your blog
