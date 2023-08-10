@@ -150,4 +150,9 @@ EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
 
+# LOGIN_REDIRECT_URL = 'post_list'
+# LOGIN_URL = 'login'
+# LOGOUT_URL = 'logout'
+
+
 

@@ -34,6 +34,10 @@
 
 {{post.body|markdown|truncatewords_html:30}}
 
+<a href="{% url 'blog:logout' %}">
+    Logout
+</a>
+
 {% endfor %}
 {% include "blog/pagination.html" with page=posts %}
 {% endblock %}

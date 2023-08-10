@@ -1,21 +1,35 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from .models import Post, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
-from .forms import EmailPostForm, CommentForm, SearchForm, AddPostForm
+from .forms import EmailPostForm, CommentForm, SearchForm, AddPostForm, LoginForm
 from django.core.mail import send_mail
 from django.views.decorators.http import require_POST
 from taggit.models import Tag
 from django.db.models import Count
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.contrib.postgres.search import TrigramSimilarity
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
 
+@login_required
 def post_list(request, tag_slug=None):
     post_list = Post.published.all()
+    form = SearchForm()
+    query = None
+    results = []
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            search_vector = SearchVector('title', 'body')
+            search_query = SearchQuery(query)
+            results = Post.published.annotate(search=search_vector,rank=SearchRank(search_vector, search_query)).filter(search=search_query).order_by('-rank')
+            return render(request, 'blog/search.html', {'form':form, 'query':query, 'results':results})
     tag = None
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
@@ -28,7 +42,7 @@ def post_list(request, tag_slug=None):
         posts = paginator.page(1)
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
-    return render(request, 'blog/list.html', {'posts':posts, 'tag':tag})
+    return render(request, 'blog/list.html', {'posts':posts, 'tag':tag,'form':form, 'query':query, 'results':results})
 
 
 def post_detail(request, year, month, day, post):
@@ -96,7 +110,7 @@ def post_search(request):
 
     return render(request, 'blog/search.html', {'form':form, 'query':query, 'results':results})
 
-
+@login_required
 def add_post(request):
     form = AddPostForm()
     if request.method == 'POST':
@@ -106,6 +120,31 @@ def add_post(request):
             return redirect('blog:post_list')
         
     return render(request, 'blog/addpost.html', {'form':form})
+
+
+def user_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(request, username = cd['username'], password = cd['password'])
+            if user is not None:
+                login(request,user)
+                return redirect('blog:post_list')
+            else:
+                return HttpResponse("Disable Account")
+        else:
+            return HttpResponse("Invalid Login")
+    else:
+        form = LoginForm()
+    
+    return render(request, 'blog/login.html', {'form':form})
+
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return redirect("blog:login")
 
     
 
