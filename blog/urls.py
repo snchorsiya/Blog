@@ -12,6 +12,12 @@ urlpatterns = [
     path('change-password/', login_required(auth_views.PasswordChangeView.as_view(template_name='blog/password_change_form.html',success_url=reverse_lazy('blog:change-password-done'))), name='change-password'),
     path('change-password/done/', login_required(auth_views.PasswordChangeDoneView.as_view(template_name = 'blog/password_change_done.html')), name='change-password-done'),
     
+    
+    path("reset-password/", auth_views.PasswordResetView.as_view(template_name='blog/password_reset_form.html',html_email_template_name='blog/password_reset_email.html'), name="reset_password"),
+    path("reset-password/done/", auth_views.PasswordResetDoneView.as_view(template_name='blog/password_reset_done.html'), name="password_reset_done"),
+    path("reset-password-confirm/<uidb64>/<token>", auth_views.PasswordResetConfirmView.as_view(template_name='blog/password_reset_confirm.html'), name="password_reset_confirm"),
+    path('reset-password/complete/',auth_views.PasswordResetCompleteView.as_view(template_name='blog/password_reset_complete.html'),name='password_reset_complete'),
+
     path('postlist/', views.post_list, name='post_list'),
     path('tag/<slug:tag_slug>/', views.post_list, name='post_list_by_tag'),
     path('<int:year>/<int:month>/<int:day>/<slug:post>/', views.post_detail, name='post_detail'),
