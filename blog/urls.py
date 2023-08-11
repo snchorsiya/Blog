@@ -4,6 +4,7 @@ from .feeds import LatestPostsFeed
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 
+
 app_name = 'blog'
 
 urlpatterns = [
@@ -13,9 +14,10 @@ urlpatterns = [
     path('change-password/done/', login_required(auth_views.PasswordChangeDoneView.as_view(template_name = 'blog/password_change_done.html')), name='change-password-done'),
     
     
-    path("reset-password/", auth_views.PasswordResetView.as_view(template_name='blog/password_reset_form.html',html_email_template_name='blog/password_reset_email.html'), name="reset_password"),
+    path("reset-password/", auth_views.PasswordResetView.as_view(template_name='blog/password_reset_form.html',email_template_name='blog/password_reset_email.html',
+                                                                 subject_template_name='blog/password_reset_subject.txt',success_url=reverse_lazy('blog:password_reset_done')), name="reset_password"),
     path("reset-password/done/", auth_views.PasswordResetDoneView.as_view(template_name='blog/password_reset_done.html'), name="password_reset_done"),
-    path("reset-password-confirm/<uidb64>/<token>", auth_views.PasswordResetConfirmView.as_view(template_name='blog/password_reset_confirm.html'), name="password_reset_confirm"),
+    path("reset-password-confirm/<uidb64>/<token>", auth_views.PasswordResetConfirmView.as_view(template_name='blog/password_reset_confirm.html',success_url=reverse_lazy('blog:password_reset_complete')), name="password_reset_confirm"),
     path('reset-password/complete/',auth_views.PasswordResetCompleteView.as_view(template_name='blog/password_reset_complete.html'),name='password_reset_complete'),
 
     path('postlist/', views.post_list, name='post_list'),

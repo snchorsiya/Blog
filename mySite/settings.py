@@ -25,8 +25,10 @@ SECRET_KEY = 'django-insecure-w##_0m9jhd5v3i@nuj9rk^h8*gmrhz+5kys6og@znk_gx1=tve
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ALLOWED_HOSTS = ['xxx.xxx.xxx.xxx', '127.0.0.1', 'mysite.com','www.mysite.com']
 ALLOWED_HOSTS = []
-SITE_ID = 1
+SITE_ID = 2
 
 
 # Application definition
@@ -154,8 +156,6 @@ LOGIN_REDIRECT_URL = 'post_list'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 
