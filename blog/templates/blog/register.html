@@ -4,7 +4,11 @@
 {% block title %}Register{% endblock %}
 {% block content %}
 <h1>Create an account</h1>
-<p>Please, sign up using the following form:</p>
+<p>
+    Please, use the following form to log-in. 
+    If you have an account <a href="{% url "blog:login" %}">login here</a>.
+   </p>
+
 <form method="POST">
     {% csrf_token %}
     

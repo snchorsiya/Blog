@@ -31,6 +31,7 @@ urlpatterns = [
     path('feed/', LatestPostsFeed(), name='post_feed'),
     path('search/', views.post_search, name='post_search'),
     path('addpost/', views.add_post, name='add_post'),
+    path('edit/', views.edit, name='edit'),
    
 
 ]

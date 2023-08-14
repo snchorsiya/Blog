@@ -1,0 +1,34 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Edit your account{% endblock %}
+{% block content %}
+<h1>Edit your account</h1>
+<p>You can edit your account using the following form:</p>
+<form method="post" enctype="multipart/form-data/">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-7 mb-0" style="display: block; margin: 0 auto;">
+            {{user_form.first_name|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-7 mb-0" style="display: block; margin: 0 auto;">
+            {{user_form.email|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-7 mb-0" style="display: block; margin: 0 auto;">
+            {{profile_form.date_of_birth|as_crispy_field}}
+        </div>
+        <br>
+        <br>
+        <div class="form-group col-md-7 mb-0" style="display: block; margin: 0 auto;">
+            {{profile_form.photo|as_crispy_field}}
+        </div>
+
+    </div>
+    <br>
+
+    <div class="content">
+        <button type="submit" style="display: block; margin: 0 auto;" class="btn btn-success">Save changes</button>
+    </div>
+
+
+</form>
+{% endblock %}
