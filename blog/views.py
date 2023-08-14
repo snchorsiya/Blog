@@ -3,7 +3,7 @@ from django.http import Http404, HttpResponse
 from .models import Post, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
-from .forms import EmailPostForm, CommentForm, SearchForm, AddPostForm, LoginForm
+from .forms import EmailPostForm, CommentForm, SearchForm, AddPostForm, LoginForm, UserRegisterationForm
 from django.core.mail import send_mail
 from django.views.decorators.http import require_POST
 from taggit.models import Tag
@@ -14,9 +14,9 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 
 
+
 # Create your views here.
 
-@login_required
 def post_list(request, tag_slug=None):
     post_list = Post.published.all()
     form = SearchForm()
@@ -145,6 +145,20 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect("blog:login")
+
+
+def register(request):
+    if request.method == 'POST':
+        user_form = UserRegisterationForm(request.POST)
+        if user_form.is_valid():
+            new_user = user_form.save(commit=False)
+            new_user.set_password(user_form.cleaned_data['password'])
+            new_user.save()
+            return render(request,'blog/register_done.html', {'new_user':new_user})
+        
+    else:
+        user_form = UserRegisterationForm()
+    return render(request, 'blog/register.html', {'user_form':user_form})
 
     
 

@@ -1,0 +1,45 @@
+{% extends 'blog/base.html' %}
+{% load blog_tags %}
+{% load crispy_forms_tags %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<h1>Create an account</h1>
+<p>Please, sign up using the following form:</p>
+<form method="POST">
+    {% csrf_token %}
+    
+    <div class="form-row">
+        <div class="form-group col-md-7 mb-0" style="display: block; margin: 0 auto;">
+            {{user_form.username|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-7 mb-0" style="display: block; margin: 0 auto;">
+            {{user_form.first_name|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-7 mb-0" style="display: block; margin: 0 auto;">
+            {{user_form.email|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-7 mb-0" style="display: block; margin: 0 auto;">
+            {{user_form.password|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-7 mb-0" style="display: block; margin: 0 auto;">
+            {{user_form.password2|as_crispy_field}}
+        </div>
+        
+    </div>
+    <br>
+    <!-- <table>{{ form.as_table }}</table> -->
+    <div class="content">
+        <button type="submit" style="display: block; margin: 0 auto;" class="btn btn-success">Create my account</button>
+        </div>
+
+
+</form>
+<!-- <br>
+<br>
+<p>
+    <a href="{% url "blog:reset_password" %}">
+        Forgotten your password?
+        </a>
+    </p> -->
+
+{% endblock %}

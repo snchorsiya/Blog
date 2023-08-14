@@ -8,7 +8,8 @@ from django.contrib.auth.decorators import login_required
 app_name = 'blog'
 
 urlpatterns = [
-    path('', views.user_login, name='login'),
+    path('', views.post_list, name='post_list'),
+    path('login/', views.user_login, name='login'),
     path('logout/', views.user_logout, name='logout'),
     path('change-password/', login_required(auth_views.PasswordChangeView.as_view(template_name='blog/password_change_form.html',success_url=reverse_lazy('blog:change-password-done'))), name='change-password'),
     path('change-password/done/', login_required(auth_views.PasswordChangeDoneView.as_view(template_name = 'blog/password_change_done.html')), name='change-password-done'),
@@ -20,7 +21,9 @@ urlpatterns = [
     path("reset-password-confirm/<uidb64>/<token>", auth_views.PasswordResetConfirmView.as_view(template_name='blog/password_reset_confirm.html',success_url=reverse_lazy('blog:password_reset_complete')), name="password_reset_confirm"),
     path('reset-password/complete/',auth_views.PasswordResetCompleteView.as_view(template_name='blog/password_reset_complete.html'),name='password_reset_complete'),
 
-    path('postlist/', views.post_list, name='post_list'),
+    path('register/',views.register ,name='register'),
+
+    
     path('tag/<slug:tag_slug>/', views.post_list, name='post_list_by_tag'),
     path('<int:year>/<int:month>/<int:day>/<slug:post>/', views.post_detail, name='post_detail'),
     path('<int:post_id>/share/', views.post_share, name='post_share'),

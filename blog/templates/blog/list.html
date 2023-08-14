@@ -11,8 +11,10 @@
 
 <h1>My Blog</h1>
 {% if tag %}
+
 <h2>Posts tagged with "{{ tag.name }}"</h2>
 {% endif %}
+
 
 {% for post in posts %}
 
@@ -34,11 +36,13 @@
 
 {{post.body|markdown|truncatewords_html:30}}
 
+{% if user.is_authenticated %}
 <p>
     <a href="{% url 'blog:logout' %}">
         Logout
     </a>
 </p>
+{% endif %}
 
 {% endfor %}
 {% include "blog/pagination.html" with page=posts %}
