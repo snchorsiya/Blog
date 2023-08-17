@@ -8,5 +8,12 @@ Blog Application: Create a complete blog application
 6. Add tags to posts using Django-taggit and recommend similar posts based on shared tags
 7. Implement custom template tags to display the latest posts and most commented posts
 8. Implement a custom template filter to render Markdown
-9. Create a sitemap and a RSS feed for your blog
+9. Create a sitemap and an RSS feed for your blog
 10. Implement a full-text search engine using PostgreSQL
+11. Adding social authentication with Python Social Auth
+12. Installing Django Extensions
+13. Running the development server through HTTPS
+14. Adding authentication using Facebook
+15. Adding authentication using Twitter
+16. Adding authentication using Google
+17. Creating a profile for users that register with social authentication
