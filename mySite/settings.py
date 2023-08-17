@@ -28,8 +28,8 @@ DEBUG = True
 
 # ALLOWED_HOSTS = []
 # ALLOWED_HOSTS = ALLOWED_HOSTS = ['xxx.xxx.xxx.xxx', '127.0.0.1', 'mysite.com','www.mysite.com']
-ALLOWED_HOSTS = []
-SITE_ID = 2
+ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
+SITE_ID = 1
 
 
 # Application definition
@@ -42,11 +42,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
+    'social_django',
+    'django_extensions',
     'taggit',
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'django.contrib.postgres',
     'crispy_forms',
+    'images.apps.ImagesConfig',
+    
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -161,13 +165,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = '587'
-EMAIL_HOST_USER = 'snchorsiya008@gmail.com'
-EMAIL_HOST_PASSWORD = 'ctneohccdqxncdzy'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "snchorsiya008@gmail.com"
+EMAIL_HOST_PASSWORD = "ssfswlboxdhxrbuq"
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+DEFAULT_FROM_EMAIL = "snchorsiya008@gmail.com"
 
 
 LOGIN_REDIRECT_URL = 'blog:post_list'
@@ -177,7 +182,29 @@ LOGOUT_URL = 'blog:logout'
 # AUTH_PROFILE_MODULE = 'blog.base.Profile'
 
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '556221577427-htc009fadv9lpk01md2pvqe2k2e2btb6.apps.googleusercontent.com' # Google Client ID
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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' # Google Client Secret
+
+
 AUTHENTICATION_BACKENDS = [
  'django.contrib.auth.backends.ModelBackend',
  'blog.authentication.EmailAuthBackend',
+ 'social_core.backends.facebook.FacebookOAuth2',
+ 'social_core.backends.twitter.TwitterOAuth',
+ 'social_core.backends.google.GoogleOAuth2',
 ]
+
+
+SOCIAL_AUTH_PIPELINE = [
+ 'social_core.pipeline.social_auth.social_details',
+ 'social_core.pipeline.social_auth.social_uid',
+ 'social_core.pipeline.social_auth.auth_allowed',
+ 'social_core.pipeline.social_auth.social_user',
+ 'social_core.pipeline.user.get_username',
+ 'social_core.pipeline.user.create_user',
+ 'blog.authentication.create_profile',
+ 'social_core.pipeline.social_auth.associate_user',
+ 'social_core.pipeline.social_auth.load_extra_data',
+ 'social_core.pipeline.user.user_details',
+]
+

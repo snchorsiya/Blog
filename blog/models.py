@@ -3,8 +3,11 @@ from django.db.models.query import QuerySet
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 from taggit.managers import TaggableManager
 from django.conf import settings
+
 
 # Create your models here.
 
@@ -70,4 +73,18 @@ class Profile(models.Model):
 
     def __str__(self) -> str:
         return f'Profile of {self.user.username}'
+    
+# @receiver(post_save, sender=User)
+# def create_user_profile(sender, instance, created , **kwargs):
+#     if created:
+#         Profile.objects.create(user=instance)
+
+
+# @receiver(post_save, sender=User)
+# def save_user_receiver(sender, instance ,**kwargs):
+#     instance.profile.save()
+    
+
+    
+
 

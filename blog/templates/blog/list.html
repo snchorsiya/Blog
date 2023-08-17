@@ -10,6 +10,30 @@
 {% block content %}
 
 <h1>My Blog</h1>
+{% if user.is_authenticated %}
+
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="{% url "blog:add_post" %}">Add Post</a>
+    </li>
+
+
+    <li class="dropdown">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">Profile</a>
+        <ul class="dropdown-menu">
+          <li><a href="{% url "blog:edit" %}">Edit Profile</a></li>
+          <li><a href="{% url "blog:change-password" %}">Change Password</a></li>
+        </ul>
+      </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'blog:logout' %}">Logout</a>
+    </li>
+      
+  </ul>
+
+
+  {% endif %}
+
 {% if tag %}
 
 <h2>Posts tagged with "{{ tag.name }}"</h2>
@@ -36,14 +60,10 @@
 
 {{post.body|markdown|truncatewords_html:30}}
 
-{% if user.is_authenticated %}
-<p>
-    <a href="{% url 'blog:logout' %}">
-        Logout
-    </a>
-</p>
-{% endif %}
+
 
 {% endfor %}
 {% include "blog/pagination.html" with page=posts %}
+
+
 {% endblock %}

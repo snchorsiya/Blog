@@ -73,6 +73,7 @@ def post_share(request, post_id):
             send_mail(subject, message, 'snchorsiya008@gmail.com',
                       [cd['to']])
             sent = True
+            print('Email Sned:', sent)
     else:
         form = EmailPostForm()
     return render(request, 'blog/share.html', {'post':post, 'form':form, 'sent':sent })
@@ -129,11 +130,10 @@ def user_login(request):
             cd = form.cleaned_data
             user = authenticate(request, username = cd['username'], password = cd['password'])
             if user is not None:
-                
-                if user.is_active: 
+                  if user.is_active: 
                     login(request,user)
                     return redirect('blog:post_list')
-                else:
+            else:
                     return HttpResponse("Disable Account")
         else:
             return HttpResponse("Invalid Login")
@@ -156,7 +156,11 @@ def register(request):
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
-            Profile.objects.create(user=new_user)
+            existing_profile = Profile.objects.filter(user=new_user).first()
+            if existing_profile:
+                print('Profile already exist:')
+            else:
+                Profile.objects.create(user=new_user)
             return render(request,'blog/register_done.html', {'new_user':new_user})
         
     else:
@@ -173,6 +177,7 @@ def edit(request):
              user_form.save()
              profile_form.save()
              messages.success(request, 'Profile updated successfully')
+             return redirect('blog:post_list')
         else:
             messages.error(request, 'Error updating your profile')
   else:
