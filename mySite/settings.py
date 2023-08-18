@@ -27,8 +27,8 @@ SECRET_KEY = 'django-insecure-w##_0m9jhd5v3i@nuj9rk^h8*gmrhz+5kys6og@znk_gx1=tve
 DEBUG = True
 
 # ALLOWED_HOSTS = []
-# ALLOWED_HOSTS = ALLOWED_HOSTS = ['xxx.xxx.xxx.xxx', '127.0.0.1', 'mysite.com','www.mysite.com']
-ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ALLOWED_HOSTS = ['xxx.xxx.xxx.xxx', '127.0.0.1', 'mysite.com','www.mysite.com']
+# ALLOWED_HOSTS = []
 SITE_ID = 1
 
 
@@ -42,15 +42,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
-    'social_django',
-    'django_extensions',
     'taggit',
+    'images',
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'django.contrib.postgres',
     'crispy_forms',
-    'images.apps.ImagesConfig',
-    
+    'social_django',
+    'django_extensions',
+    'bootstrapform',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -62,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_auto_logout.middleware.auto_logout',
 ]
 
 
@@ -182,29 +183,10 @@ LOGOUT_URL = 'blog:logout'
 # AUTH_PROFILE_MODULE = 'blog.base.Profile'
 
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '556221577427-htc009fadv9lpk01md2pvqe2k2e2btb6.apps.googleusercontent.com' # Google Client ID
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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' # Google Client Secret
-
-
 AUTHENTICATION_BACKENDS = [
  'django.contrib.auth.backends.ModelBackend',
  'blog.authentication.EmailAuthBackend',
- 'social_core.backends.facebook.FacebookOAuth2',
- 'social_core.backends.twitter.TwitterOAuth',
- 'social_core.backends.google.GoogleOAuth2',
 ]
 
 
-SOCIAL_AUTH_PIPELINE = [
- 'social_core.pipeline.social_auth.social_details',
- 'social_core.pipeline.social_auth.social_uid',
- 'social_core.pipeline.social_auth.auth_allowed',
- 'social_core.pipeline.social_auth.social_user',
- 'social_core.pipeline.user.get_username',
- 'social_core.pipeline.user.create_user',
- 'blog.authentication.create_profile',
- 'social_core.pipeline.social_auth.associate_user',
- 'social_core.pipeline.social_auth.load_extra_data',
- 'social_core.pipeline.user.user_details',
-]
-
+AUTO_LOGOUT = {'SESSION_TIME': 10, 'message':'The Session has expired. Please login again to continue.',}

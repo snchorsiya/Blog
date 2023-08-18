@@ -1,0 +1,31 @@
+{% extends "blog/base.html" %}
+{% load bootstrap %}
+{% block title %}Bookmark an image{% endblock %}
+{% block content %}
+<h1>Bookmark an image</h1>
+<img src="{{ request.GET.url }}" class="image-preview">
+<from method="post">
+    <!-- {{ form.as_p }} -->
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-7 mb-0" style="display: block; margin: 0 auto;">
+            {{ form.title|bootstrap }}
+        </div>
+      
+        <div class="form-group col-md-7 mb-0" style="display: block; margin: 0 auto;">
+            {{ form.description|bootstrap }}
+        </div>
+
+    </div>
+
+
+
+
+    <div class="content mb-0">
+        <input type="button" style="display: block; margin: 0 auto;" class="btn btn-primary" value="Bookmark it!" />
+    </div>
+
+
+    </form>
+
+    {% endblock %}
